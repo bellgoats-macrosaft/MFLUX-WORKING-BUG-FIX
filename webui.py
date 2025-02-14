@@ -134,7 +134,7 @@ def get_available_lora_files():
 	for root, dirs, files in os.walk(LORA_DIR):
 		for file in files:
 			if file.endswith(".safetensors"):
-				display_name = os.path.splitext(__file__)[0]
+				display_name = os.path.splitext(file)[0]
 				lora_files.append((display_name, os.path.join(root, file)))
 	lora_files.sort(key=lambda x: x[0].lower())
 	return lora_files
