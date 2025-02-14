@@ -48,7 +48,7 @@ class CustomModelConfig:
 	@staticmethod
 	def from_alias(alias):
 		return get_custom_model_config(alias)
-
+	
 MODELS = {
 	"dev": CustomModelConfig("AITRADER/MFLUXUI.1-dev", "dev", 1000, 512),
 	"schnell": CustomModelConfig("AITRADER/MFLUXUI.1-schnell", "schnell", 1000, 256),
@@ -197,7 +197,7 @@ def enhance_prompt(prompt, ollama_model, system_prompt):
 	except Exception as e:
 		gr.Error(f"Error while improving prompt: {str(e)}")
 		return prompt
-
+	
 def print_memory_usage(label):
 	try:
 		active_memory = mx.metal.get_active_memory() / 1e6
@@ -295,7 +295,7 @@ def generate_image_gradio(
 	finally:
 		force_mlx_cleanup()
 		gc.collect()
-	
+		
 def generate_image_controlnet_gradio(
 prompt,
 control_image,
@@ -525,14 +525,14 @@ def get_available_ollama_models():
 	except Exception as e:
 		print(f"Error fetching Ollama models: {e}")
 		return [], None
-
+	
 def save_ollama_settings(model, system_prompt):
 	with open('ollama_settings.json', 'w') as f:
 		json.dump({'model': model}, f)
-	
+		
 	with open('system_prompt.md', 'w') as f:
 		f.write(system_prompt)
-
+		
 def read_system_prompt():
 	try:
 		script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -542,7 +542,7 @@ def read_system_prompt():
 	except FileNotFoundError:
 		print("system_prompt.md niet gevonden. Een lege prompt wordt gebruikt.")
 		return ""
-
+	
 def clear_flux_cache():
 	global flux_cache
 	
@@ -693,7 +693,7 @@ def get_updated_lora_files():
 	for root, dirs, files in os.walk(LORA_DIR):
 		for file in files:
 			if file.endswith(".safetensors") or file.endswith(".ckpt"):
-				lora_files.append(__file__)
+				lora_files.append(file)
 	return lora_files
 
 def get_updated_models():
@@ -979,7 +979,7 @@ def create_ui():
 							ollama_components_simple = create_ollama_settings()
 						with gr.Row():
 							enhance_ollama_simple = gr.Button("Enhance prompt with Ollama")
-						
+							
 						ollama_components_simple[2].click(
 							fn=save_settings,
 							inputs=[ollama_components_simple[0], ollama_components_simple[1]],
